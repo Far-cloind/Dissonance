@@ -1,0 +1,3 @@
+res://scripts/ui/game_ui.gd
+res://scenes/main.tscn
+res://scripts/audio/string_synth.gd

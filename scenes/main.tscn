@@ -1,0 +1,30 @@
+[gd_scene load_steps=7 format=3 uid="uid://c4a6x8x7h5v6e"]
+
+[ext_resource type="Script" uid="uid://kj1py6mlkrvj" path="res://scripts/managers/main.gd" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://b2kllwl6juoxs" path="res://scenes/player.tscn" id="2_72z5a"]
+[ext_resource type="PackedScene" uid="uid://j1txvc4hfqh0" path="res://scenes/enemy_spawner.tscn" id="3_sugp2"]
+[ext_resource type="Script" uid="uid://dq25xrs1uyeop" path="res://scripts/audio/kick_synth.gd" id="3_tefeu"]
+[ext_resource type="PackedScene" uid="uid://dkmc7tnlt8law" path="res://scenes/game_ui.tscn.tscn" id="4_jyhfs"]
+[ext_resource type="Script" uid="uid://d2ytbyftign6y" path="res://scripts/audio/string_synth.gd" id="4_o6xl0"]
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_0wfyh")
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.15, 0.15, 0.2, 1)
+
+[node name="EnemySpawner" parent="." instance=ExtResource("3_sugp2")]
+
+[node name="GameUi_tscn" parent="." instance=ExtResource("4_jyhfs")]
+
+[node name="Player" parent="." instance=ExtResource("2_72z5a")]
+position = Vector2(568, 311)
+
+[node name="KickSynth" type="AudioStreamPlayer" parent="Player"]
+script = ExtResource("3_tefeu")
+
+[node name="StringSynth" type="AudioStreamPlayer" parent="Player"]
+script = ExtResource("4_o6xl0")

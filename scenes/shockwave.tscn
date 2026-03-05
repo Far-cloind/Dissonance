@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://ba2ci8s3op2vs"]
+
+[ext_resource type="Script" path="res://scripts/characters/shockwave.gd" id="1_shockwave"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_shockwave"]
+radius = 10.0
+
+[sub_resource type="Gradient" id="Gradient_shockwave"]
+colors = PackedColorArray(1, 1, 1, 0.8, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_shockwave"]
+gradient = SubResource("Gradient_shockwave")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Shockwave" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_shockwave")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_shockwave")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.5, 0.8, 1, 0.6)
+texture = SubResource("GradientTexture2D_shockwave")
