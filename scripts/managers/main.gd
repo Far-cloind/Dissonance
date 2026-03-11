@@ -4,6 +4,7 @@ extends Node2D
 
 var rhythm_manager: Node = null
 var instrument_style: InstrumentStyleBase = null
+var bgm_player: BGMPlayer = null
 
 func _ready():
 	print("主场景初始化...")
@@ -15,8 +16,31 @@ func _ready():
 	print("选择的风格:", instrument_style.style_name)
 	print("风格描述:", instrument_style.get_description())
 	
+	# 创建 BGM 播放器
+	create_bgm_player()
+	
 	# 创建对应风格的节奏管理器
 	create_rhythm_manager()
+
+func create_bgm_player():
+	print("🎵 创建 BGM 播放器...")
+	
+	bgm_player = BGMPlayer.new()
+	bgm_player.name = "BGMPlayer"
+	add_child(bgm_player)
+	
+	# 根据风格播放测试 BGM
+	match GlobalGameData.selected_style:
+		GlobalGameData.STYLE_STRING:
+			bgm_player.play_test_bgm("strings")
+		GlobalGameData.STYLE_ROCK:
+			bgm_player.play_test_bgm("drums")
+		GlobalGameData.STYLE_ELECTRONIC:
+			bgm_player.play_test_bgm("house")
+		_:
+			bgm_player.play_test_bgm("piano")
+	
+	print("✅ BGM 播放器创建完成")
 
 func create_rhythm_manager():
 	# 获取风格对应的节奏管理器脚本路径
@@ -70,13 +94,13 @@ func add_rock_synths(parent: Node):
 	print("🥁 摇滚音频合成器已添加")
 
 func add_string_synths(parent: Node):
-	# 弦乐风格：弦乐合成器
-	var string_synth = AudioStreamPlayer.new()
-	string_synth.name = "StringSynth"
-	string_synth.script = load("res://scripts/audio/string_synth.gd")
-	parent.add_child(string_synth)
+	# 弦乐风格：使用新的 SoundFont 播放器
+	var string_soundfont = Node.new()
+	string_soundfont.name = "StringSoundFont"
+	string_soundfont.script = load("res://scripts/audio/string_soundfont.gd")
+	parent.add_child(string_soundfont)
 	
-	print("🎻 弦乐音频合成器已添加")
+	print("🎻 弦乐 SoundFont 播放器已添加")
 
 func add_electronic_synths(parent: Node):
 	# 电子风格：底鼓 + 军鼓（可以后续替换为电子合成器）

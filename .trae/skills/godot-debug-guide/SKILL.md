@@ -343,3 +343,31 @@ func get_player():
 | UI 不更新 | 检查 null，添加调试打印 |
 | 方法调用错误 | 检查参数数量和类型 |
 | 游戏崩溃 | 检查远程场景树 |
+| `p_size < 0` | 文件>2GB，使用懒加载或小文件 |
+| `max_voices`错误 | 改为`max_polyphony` |
+
+---
+
+## 今日Debug经验 - SoundFont大文件加载
+
+### 问题
+```
+E 0:00:03:479 SoundFont.gd:287 @ _read_chunk(): 
+Condition "p_size < 0" is true. Returning: ERR_INVALID_PARAMETER
+```
+
+### 原因
+- 32位整数溢出: 文件>2GB时`get_u32()`返回负数
+- `read_file()`一次性读入整个4GB+文件
+- StreamPeerBuffer无法处理>2GB数据块
+
+### 解决
+```gdscript
+# 懒加载模式
+midi_player.load_all_voices_from_soundfont = false
+midi_player.max_polyphony = 64
+call_deferred("load_soundfont")
+
+# 或使用小文件
+GeneralUser GS (~30MB) / FluidR3 (~140MB)
+```

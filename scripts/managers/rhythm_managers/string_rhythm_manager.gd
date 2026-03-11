@@ -12,7 +12,7 @@ var death_queue: Array = []
 
 var instrument_style: InstrumentStyleBase = null
 
-@onready var string_synth: AudioStreamPlayer = $StringSynth
+@onready var string_player: Node = $StringSoundFont
 
 func _ready():
 	add_to_group("rhythm_manager")
